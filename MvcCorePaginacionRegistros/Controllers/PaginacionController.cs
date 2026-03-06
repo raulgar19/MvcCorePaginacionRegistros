@@ -1,0 +1,70 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using MvcCorePaginacionRegistros.Models;
+using MvcCorePaginacionRegistros.Repositories;
+
+namespace MvcCorePaginacionRegistros.Controllers
+{
+    public class PaginacionController : Controller
+    {
+        private RepositoryHospital repo;
+
+        public PaginacionController(RepositoryHospital repo)
+        {
+            this.repo = repo;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> RegistroVistaDepartamento(int? posicion)
+        {
+            if (posicion == null)
+            {
+                posicion = 1;
+            }
+
+            int numeroRegistros = await this.repo.GetNumeroRegistrosVistaDepartamentosAsync();
+
+            int siguiente = posicion.Value + 1;
+
+            if (siguiente > numeroRegistros)
+            {
+                siguiente = numeroRegistros;
+            }
+
+            int anterior = posicion.Value - 1;
+
+            if (anterior < 1)
+            {
+                anterior = 1;
+            }
+
+            ViewData["ULTIMO"] = numeroRegistros;
+            ViewData["SIGUIENTE"] = siguiente;
+            ViewData["ANTERIOR"] = anterior;
+
+            VistaDepartamento vistaDepartamento = await this.repo.GetVistaDepartamentoAsync(posicion.Value);
+
+            return View(vistaDepartamento);
+        }
+
+        public async Task<IActionResult> GrupoVistaDepartamentos(int? posicion)
+        {
+            if (posicion == null)
+            {
+                posicion = 1;
+            }
+
+            int numeroRegistros = await this.repo.GetNumeroRegistrosVistaDepartamentosAsync();
+
+            ViewData["NUMEROREGISTROS"] = numeroRegistros;
+            ViewData["POSICIONACTUAL"] = posicion.Value;
+
+            List<VistaDepartamento> departamentos = await this.repo.GetGrupoVistaDepartamentoAsync(posicion.Value);
+
+            return View(departamentos);
+        }
+    }
+}
