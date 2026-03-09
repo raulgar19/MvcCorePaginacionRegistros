@@ -26,14 +26,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Paginacion" asp-action="RegistroVistaDepartamento">Registro a registro</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Paginacion" asp-action="GrupoVistaDepartamentos">Grupo de registros</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Paginacion" asp-action="GrupoDepartamentos">Paginación departamentos</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="paginacionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Paginación
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="paginacionDropdown">
+                                <li><a class="dropdown-item" asp-controller="Paginacion" asp-action="RegistroVistaDepartamento">Registro a registro</a></li>
+                                <li><a class="dropdown-item" asp-controller="Paginacion" asp-action="GrupoVistaDepartamentos">Grupo de registros</a></li>
+                                <li><a class="dropdown-item" asp-controller="Paginacion" asp-action="GrupoDepartamentos">Paginación departamentos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Paginacion" asp-action="PaginarGrupoEmpleados">Grupo empleados</a></li>
+                                <li><a class="dropdown-item" asp-controller="Paginacion" asp-action="EmpleadosOficio">Empleados por oficio</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

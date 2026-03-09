@@ -1,0 +1,58 @@
+﻿@model List<Empleado>
+
+<h1>Empleados por oficio</h1>
+
+<form method="post">
+    <label class="form-label">Introduzca el oficio</label>
+    <input type="text" name="oficio" class="form-control" required />
+    <button class="btn btn-warning mt-2">Buscar empleados</button>
+</form>
+
+@if (Model != null && Model.Count > 0)
+{
+    int numRegistros = (int)ViewData["REGISTROS"];
+    string oficio = ViewData["OFICIO"].ToString();
+    int numPagina = 1;
+
+    <ul class="list-group list-group-horizontal mt-3">
+        @for (int i = 1; i <= numRegistros; i += 3)
+        {
+            <li class="list-group-item">
+                <a asp-controller="Paginacion"
+                   asp-action="EmpleadosOficio"
+                   asp-route-posicion="@i"
+                   asp-route-oficio="@oficio">@numPagina</a>
+            </li>
+
+            numPagina++;
+        }
+    </ul>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Id Empleado</th>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th>Departamento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdEmpleado</td>
+                    <td>@item.Apellido</td>
+                    <td>@item.Oficio</td>
+                    <td>@item.Salario</td>
+                    <td>@item.IdDepartamento</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (ViewData["OFICIO"] != null)
+{
+    <div class="alert alert-info mt-3">No se encontraron empleados con el oficio especificado.</div>
+}

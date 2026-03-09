@@ -17,7 +17,7 @@ namespace MvcCorePaginacionRegistros.Models
         public string Oficio { get; set; }
 
         [Column("SALARIO")]
-        public decimal Salario { get; set; }
+        public int Salario { get; set; }
 
         [Column("DEPT_NO")]
         public int IdDepartamento { get; set; }

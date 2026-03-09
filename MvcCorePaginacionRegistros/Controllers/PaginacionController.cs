@@ -99,5 +99,33 @@ namespace MvcCorePaginacionRegistros.Controllers
 
             return View(empleados);
         }
+
+        public async Task<IActionResult> EmpleadosOficio(int? posicion, string oficio)
+        {
+            if (posicion == null)
+            {
+                posicion = 1;
+                return View();
+            }
+            else
+            {
+                ModelEmpleadoOficio model = await this.repo.GetGrupoEmpleadosOficioAsync(posicion.Value, oficio);
+                ViewData["REGISTROS"] = model.NumeroRegistros;
+                ViewData["OFICIO"] = oficio;
+
+                return View(model.Empleados);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EmpleadosOficio(string oficio)
+        {
+            ModelEmpleadoOficio model = await this.repo.GetGrupoEmpleadosOficioAsync(1, oficio);
+
+            ViewData["REGISTROS"] = model.NumeroRegistros;
+            ViewData["OFICIO"] = oficio;
+
+            return View(model.Empleados);
+        }
     }
 }
