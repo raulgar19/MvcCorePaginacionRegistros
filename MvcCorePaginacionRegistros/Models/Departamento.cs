@@ -8,7 +8,7 @@ namespace MvcCorePaginacionRegistros.Models
     {
         [Key]
         [Column("DEPT_NO")]
-        public int DeptNo { get; set; }
+        public int IdDepartamento { get; set; }
 
         [Column("DNOMBRE")]
         public string Nombre { get; set; }

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MvcCorePaginacionRegistros.Models.Empleado>
+
+@{
+    int numPagina = 1;
+    int numRegistros = (int) ViewData["REGISTROS"];
+}
+
+<h1>Paginar Grupo Empleados</h1>
+
+<ul class="list-group list-group-horizontal">
+    @for (int i = 1; i <= numRegistros; i += 3)
+    {
+        <li class="list-group-item">
+            <a asp-controller="Paginacion" asp-action="PaginarGrupoEmpleados" asp-route-posicion="@i">@numPagina</a>
+        </li>
+
+        numPagina++;
+    }
+</ul>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Apellido</th>
+            <th>Oficio</th>
+            <th>Salario</th>
+            <th>Departamento</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Oficio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdDepartamento)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdEmpleado">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdEmpleado">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdEmpleado">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

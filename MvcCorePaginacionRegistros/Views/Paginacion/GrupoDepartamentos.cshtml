@@ -1,11 +1,11 @@
-﻿@model List<VistaDepartamento>
+﻿@model List<Departamento>
 
 @{
     int pagina = 1;
     int numeroRegistros = (int)ViewData["NUMEROREGISTROS"];
 }
 
-<h1 style="color:blue">Paginación en grupo</h1>
+<h1>Paginación en grupo</h1>
 
 <hr />
 <div>
@@ -15,23 +15,20 @@
         pagina++;
     }
 </div>
-</div>
 <hr />
 
 <table class="table table-warning">
     <thead>
         <tr>
-            <th>Posición</th>
             <th>Id</th>
             <th>Nombre</th>
             <th>Localidad</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (VistaDepartamento departamento in Model)
+        @foreach (Departamento departamento in Model)
         {
             <tr>
-                <td>@departamento.Posicion</td>
                 <td>@departamento.IdDepartamento</td>
                 <td>@departamento.Nombre</td>
                 <td>@departamento.Localidad</td>
