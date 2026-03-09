@@ -48,6 +48,18 @@ namespace MvcCorePaginacionRegistros.Repositories
     //    where OFICIO = @oficio) QUERY
     //    where(QUERY.POSICION >= @posicion and QUERY.POSICION<(@posicion + 3))
     //go
+
+    //create procedure SP_EMPLEADOS_DEPARTAMENTO
+    //(@posicion int, @iddepartamento int, @registros int out)
+    //as
+    //    select @registros = count(EMP_NO) from EMP where DEPT_NO = @iddepartamento
+    //    select EMP_NO, APELLIDO, OFICIO, SALARIO, DEPT_NO from
+    //    (select cast(ROW_NUMBER() over (order by APELLIDO) as int)
+    //    as POSICION, EMP_NO, APELLIDO, OFICIO, SALARIO, DEPT_NO
+    //    from EMP
+    //    where DEPT_NO = @iddepartamento) QUERY
+    //    where(QUERY.POSICION >= @posicion and QUERY.POSICION<(@posicion + 3))
+    //go
     #endregion
 
     public class RepositoryHospital
@@ -122,6 +134,35 @@ namespace MvcCorePaginacionRegistros.Repositories
             var consulta = this.context.Empleados.FromSqlRaw(sql, pamPosicion, pamOficio, pamRegistros);
 
             ModelEmpleadoOficio model = new ModelEmpleadoOficio();
+
+            model.Empleados = await consulta.ToListAsync();
+            model.NumeroRegistros = (int)pamRegistros.Value;
+
+            return model;
+        }
+
+        public async Task<List<Departamento>> GetDepartamentosAsync()
+        {
+            return await this.context.Departamentos.ToListAsync();
+        }
+
+        public async Task<Departamento> FindDepartamentoAsync(int id)
+        {
+            return await this.context.Departamentos.Where(z => z.IdDepartamento == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<ModelEmpleadoDepartamento> GetEmpleadosDepartamentoAsync(int posicion, int iddepartamento)
+        {
+            string sql = "SP_EMPLEADOS_DEPARTAMENTO @posicion, @iddepartamento, @registros out";
+            SqlParameter pamPosicion = new SqlParameter("@posicion", posicion);
+            SqlParameter pamIdDepartamento = new SqlParameter("@iddepartamento", iddepartamento);
+            SqlParameter pamRegistros = new SqlParameter("@registros", 0);
+            pamRegistros.Direction = ParameterDirection.Output;
+            pamRegistros.DbType = DbType.Int32;
+
+            var consulta = this.context.Empleados.FromSqlRaw(sql, pamPosicion, pamIdDepartamento, pamRegistros);
+
+            ModelEmpleadoDepartamento model = new ModelEmpleadoDepartamento();
 
             model.Empleados = await consulta.ToListAsync();
             model.NumeroRegistros = (int)pamRegistros.Value;

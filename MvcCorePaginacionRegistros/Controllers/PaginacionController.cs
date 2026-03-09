@@ -127,5 +127,50 @@ namespace MvcCorePaginacionRegistros.Controllers
 
             return View(model.Empleados);
         }
+
+        public async Task<IActionResult> Details(int? posicion, int iddepartamento)
+        {
+            if (posicion == null)
+            {
+                posicion = 1;
+            }
+
+            Departamento dept = await this.repo.FindDepartamentoAsync(iddepartamento);
+            ViewData["DEPARTAMENTO"] = dept;
+
+            ModelEmpleadoDepartamento model = await this.repo.GetEmpleadosDepartamentoAsync(posicion.Value, iddepartamento);
+
+            int numRegistros = model.NumeroRegistros;
+
+            ViewData["REGISTROS"] = numRegistros;
+
+            int siguiente = posicion.Value + 1;
+
+            if (siguiente > numRegistros)
+            {
+                siguiente = numRegistros;
+            }
+
+            int anterior = posicion.Value - 1;
+
+            if (anterior < 1)
+            {
+                anterior = 1;
+            }
+
+            ViewData["ULTIMO"] = numRegistros;
+            ViewData["SIGUIENTE"] = siguiente;
+            ViewData["ANTERIOR"] = anterior;
+            ViewData["POSICION"] = posicion.Value;
+
+            if (model.Empleados.Count == 0)
+            {
+                return View();
+            }
+
+            Empleado empleado = model.Empleados[0];
+
+            return View(empleado);
+        }
     }
 }

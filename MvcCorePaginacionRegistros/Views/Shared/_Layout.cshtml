@@ -38,6 +38,7 @@
                                 <li><a class="dropdown-item" asp-controller="Paginacion" asp-action="EmpleadosOficio">Empleados por oficio</a></li>
                             </ul>
                         </li>
+                        @await Component.InvokeAsync("MenuDepartamentos")
                     </ul>
                 </div>
             </div>

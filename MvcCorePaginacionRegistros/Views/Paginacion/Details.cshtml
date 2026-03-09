@@ -1,0 +1,45 @@
+﻿@model Empleado
+
+@{
+    Departamento dept = (Departamento)ViewData["DEPARTAMENTO"];
+    int numRegistros = (int)ViewData["REGISTROS"];
+    int posicion = (int)ViewData["POSICION"];
+}
+
+<h1>Detalles dept</h1>
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-danger">Id Departamento: @dept.IdDepartamento</li>
+    <li class="list-group-item list-group-item-info">Nombre: @dept.Nombre</li>
+    <li class="list-group-item list-group-item-info">Localidad: @dept.Localidad</li>
+</ul>
+<hr/>
+@if (Model != null)
+{
+    <h1 style="color:blue">Registro @posicion de @numRegistros</h1>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">
+            <a asp-controller="Paginacion" asp-action="Details" asp-route-iddepartamento="@dept.IdDepartamento" asp-route-posicion="1">Primero</a>
+        </li>
+        <li class="list-group-item">
+            <a asp-controller="Paginacion" asp-action="Details" asp-route-iddepartamento="@dept.IdDepartamento" asp-route-posicion="@ViewData["ANTERIOR"]">Anterior</a>
+        </li>
+        <li class="list-group-item">
+            <a asp-controller="Paginacion" asp-action="Details" asp-route-iddepartamento="@dept.IdDepartamento" asp-route-posicion="@ViewData["SIGUIENTE"]">Siguiente</a>
+        </li>
+        <li class="list-group-item">
+            <a asp-controller="Paginacion" asp-action="Details" asp-route-iddepartamento="@dept.IdDepartamento" asp-route-posicion="@ViewData["ULTIMO"]">Último</a>
+        </li>
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-info">Id Empleado: @Model.IdEmpleado</li>
+        <li class="list-group-item list-group-item-info">Apellido: @Model.Apellido</li>
+        <li class="list-group-item list-group-item-info">Oficio: @Model.Oficio</li>
+        <li class="list-group-item list-group-item-info">Salario: @Model.Salario</li>
+        <li class="list-group-item list-group-item-info">Departamento: @Model.IdDepartamento</li>
+    </ul>
+}
+else
+{
+    <h2>No hay empleados</h2>
+}
